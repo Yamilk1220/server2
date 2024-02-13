@@ -1,0 +1,414 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "REST API proyectoUTM",
+        "description": "<html><body>Esta es la documentación de la API para el punto de venta del taller de bicicletas Morales.<p>Para poder usar esta API es necesario solicitar el token y con esto poder utilizar los servicios proporcionados.</p><br><p><b>Autenticación y token de API</b></p><p>La UniversidadTecnológica de la Mixteca (UTM) proporciona el api-token. Una vez que haya creado y confirmado sucuenta.</p></body></html>",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "host": "localhost:3000",
+    "basePath": "",
+    "tags": [
+        {
+            "name": "Productos",
+            "description": "API para obtener información detallada de los productos dentro del taller"
+        },
+        {
+            "name": "Ventas Temporales",
+            "description": "API para obtener información de la venta que se realiza en ese instante"
+        },
+        {
+            "name": " ventas diarias",
+            "description": "API para obtener información de las ventas realizadas durante todo el dia"
+        },
+        {
+            "name": "Existencias",
+            "description": "API para obtener información de la existencia y ubicación de los productos "
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/api/productos/mostrarProducto/": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listado de todos los institutos que existen en mostrador y almacen",
+                "description": "<p>Servicio que devuelve la información detallada de todos los productos existentes en el taller</p><p>&nbsp;</p><p><em><strong>¿Cuáles son los productos existentes en el taller?</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "ProductoID": 1,
+                                    "Nombre": "gomas bellota",
+                                    "precio": "17",
+                                    "cantidad": "45",
+                                    "codigo": "001"
+                                },
+                                {
+                                    "ProductoID": 34,
+                                    "Nombre": "porta bultos",
+                                    "precio": "250",
+                                    "cantidad": "10",
+                                    "codigo": "0d1"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no encontrado"
+                    }
+                }
+            }
+        },
+        "/api/productos/crearProducto/": {
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Servicio para registrar nuevos productos en el sistema",
+                "description": "<p>Servicio que permite ingresar nuevos productos al sistema (pueden ser productos exitentes o nuevos)</p><p>&nbsp;</p><p><em><strong>Es necesario editar el numero de cantidad en cada producto para amntener una buena organzación</strong></em></p>",
+                "responses": {
+                    "201": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "ProductoID": 58,
+                                    "Nombre": "Metro r26",
+                                    "precio": "150",
+                                    "cantidad": "16",
+                                    "codigo": "891"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "Ojo": {
+                        "description": "En algunos productos no es necesario indicar el tipo de producto pues este se ve englobado en la tabla Categorias"
+                    }, "404": {
+                        "description": "Estructura incorrecta"
+                    }
+                }
+            }
+        },
+        "/api/productos/eliminarProducto/": {
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Servicio para eliminar un producto especifico",
+                "description": "<p>Servicio que permite eliminar un producto almacenado dentro de la base de datos si afectar los otros productos</strong></em></p>",
+                "responses": {
+                    "202": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "ProductoID": 58,
+                                    "Nombre": "Metro r26",
+                                    "precio": "150",
+                                    "cantidad": "16",
+                                    "codigo": "891"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no encontrados"
+                    }
+                }
+            }
+        },
+        "/api/productos/BuscarName/Nombre": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Servicio parabuscar un producto especifico",
+                "description": "<p>Servicio que permite buscarun producto almacenado dentro de la base de datos si afectar los otros productos</strong></em></p>",
+                "responses": {
+                    "202": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "ProductoID": 12345
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "500": {
+                        "description": "Datos no encontrados"
+                    }
+                }
+            }
+        },
+        "/api/ventasDiarias/ingresarVenta/": {
+            "post": {
+                "tags": [
+                    "Ventas Diarias"
+                ],
+                "summary": "Función para ingresar una nueva venta en el sistema",
+                "description": "<p>Servicio que permite ingresar dentro de el sistema una nnueva venta realizada</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "CategoriaID": 23,
+                                    "NombreCategoria": "Llantas"
+                                },
+                                {
+                                    "CategoriaID": 36,
+                                    "NombreCategoria": "Servicio"
+                                },
+                                {
+                                    "CategoriaID": 45,
+                                    "NombreCategoria": "Refaccion"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "404": {
+                        "description": "Estructura incorrecta"
+                    }
+                }
+            }
+        },
+        "/api/ventasDiarias/mostrarVentas/": {
+            "get": {
+                "tags": [
+                    "Ventas Diarias"
+                ],
+                "summary": "Función para visualizar las vetas diaras",
+                "description": "<p>Servicio que permite visualizar todas las ventas que se realizaron durante todo el dia </strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "CategoriaID": 23,
+                                    "NombreCategoria": "Llantas"
+                                },
+                                {
+                                    "CategoriaID": 36,
+                                    "NombreCategoria": "Servicio"
+                                },
+                                {
+                                    "CategoriaID": 45,
+                                    "NombreCategoria": "Refaccion"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no encontrados"
+                    }
+                }
+            }
+        },
+        "/api/ventasDiarias/LimpiarVentas/": {
+            "delete": {
+                "tags": [
+                    "Ventas Temporales"
+                ],
+                "summary": "Función para eliminar la venta temporl ",
+                "description": "<p>Servicio que permite eliminar la venta temporal una ves terminado el proceso de cobro</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": []
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no enoctrados"
+                    }
+                }
+            }
+        },
+        "/api/ventasTemporales/EliminarVenta/": {
+            "delete": {
+                "tags": [
+                    "Ventas Temporales"
+                ],
+                "summary": "Función para eliminar la venta temporl ",
+                "description": "<p>Servicio que permite eliminar la venta temporal una ves terminado el proceso de cobro</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "CategoriaID": 23,
+                                    "NombreCategoria": "Llantas"
+                                },
+                                {
+                                    "CategoriaID": 36,
+                                    "NombreCategoria": "Servicio"
+                                },
+                                {
+                                    "CategoriaID": 45,
+                                    "NombreCategoria": "Refaccion"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no enoctrados"
+                    }
+                }
+            }
+        },
+        "/api/ventasTemporales/MostrarVentaT/": {
+            "get": {
+                "tags": [
+                    "Ventas temporales"
+                ],
+                "summary": "Función para visualizar las ventas diaras",
+                "description": "<p>Servicio que permite visualizar todas las ventas que se realizaron durante todo el dia </strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "CategoriaID": 23,
+                                    "NombreCategoria": "Llantas"
+                                },
+                                {
+                                    "CategoriaID": 36,
+                                    "NombreCategoria": "Servicio"
+                                },
+                                {
+                                    "CategoriaID": 45,
+                                    "NombreCategoria": "Refaccion"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "405": {
+                        "description": "Datos no encontrados"
+                    }
+                }
+            }
+        },
+        "/api/ventasTemporales/ingresarVenta/": {
+            "post": {
+                "tags": [
+                    "Ventas Diarias"
+                ],
+                "summary": "Función para ingresar una nueva venta en el sistema",
+                "description": "<p>Servicio que permite ingresar dentro de el sistema una nnueva venta realizada</strong></em></p>",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "examples": {
+                            "application/json": [
+                                {
+                                    "CategoriaID": 23,
+                                    "NombreCategoria": "Llantas"
+                                },
+                                {
+                                    "CategoriaID": 36,
+                                    "NombreCategoria": "Servicio"
+                                },
+                                {
+                                    "CategoriaID": 45,
+                                    "NombreCategoria": "Refaccion"
+                                }
+                            ]
+                        },
+                        "schema": {
+                            "$ref": "#/definitions/Institutos"
+                        }
+                    },
+                    "404": {
+                        "description": "Estructura incorrecta"
+                    }
+                }
+            }
+        },
+        "/api/usuarios/ValidarUsuario/{corro},{contrasena}": {
+            "put": {
+                "summary": "Modifica usuario.",
+                "operationId": "update",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id del ususario.",
+                        "requiered": true,
+                        "default": 0
+                    },
+                    {
+                        "name": "Usuario",
+                        "in": "body",
+                        "description": "Usuario modificado.",
+                        "requiered": true,
+                        "schema": {
+                            "$ref": "#/definitions/NuevoUsuario"
+                        }
+                    }
+                ],
+                "tags": ["Usuarios"],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "403": {
+                        "description": "Prohibido"
+                    }
+                }
+            }
+        }
+    }
+}
